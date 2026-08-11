@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelLab | Specific SOC Environment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Fira Code"', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            black: '#050505',
+                            dark: '#0a0a0a',
+                            gray: '#171717',
+                            green: '#10b981',
+                            greenGlow: 'rgba(16, 185, 129, 0.2)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #e2e8f0; }
+        .cyber-card {
+            background: linear-gradient(180deg, #171717 0%, #0a0a0a 100%);
+            border: 1px solid #262626;
+            transition: all 0.3s ease;
+        }
+        .cyber-card-active:hover {
+            border-color: #10b981;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+            transform: translateY(-2px);
+        }
+        .text-glow { text-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
+        
+        /* Subtle STATIC scanline background effect (Reduced motion) */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased relative overflow-x-hidden selection:bg-emerald-500 selection:text-white">
+    <div class="scanlines"></div>
+
+    <!-- Navigation -->
+    <nav class="border-b border-neutral-800 bg-cyber-black/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-mono font-bold text-xl text-white">
+                <span class="text-emerald-500">root@</span>SentinelLab:~#
+            </div>
+            <div class="hidden md:flex space-x-6 font-mono text-sm text-neutral-400">
+                <a href="#about" class="hover:text-emerald-400 transition-colors">./about.sh</a>
+                <a href="#architecture" class="hover:text-emerald-400 transition-colors">./architecture</a>
+                <a href="#visuals" class="hover:text-emerald-400 transition-colors">./visuals</a>
+                <a href="#writeups" class="hover:text-emerald-400 transition-colors">./writeups</a>
+                <a href="#roadmap" class="hover:text-emerald-400 transition-colors">./roadmap</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-6xl mx-auto px-6 py-20 mt-8" id="about">
+        <div class="inline-block px-3 py-1 mb-6 border border-emerald-900 bg-emerald-900/20 text-emerald-400 font-mono text-xs rounded-full">
+            ● STATUS: ONLINE _
+        </div>
+        <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+            Specific production-style <span class="text-emerald-500 text-glow">SOC Environment.</span>
+        </h1>
+        <p class="text-lg text-neutral-400 max-w-2xl mb-10 leading-relaxed">
+            Engineered around a specific multi-tier architecture combining OPNsense, mixed clients (Windows 11/Linux), and critical data storage, all logged centrally via Splunk Enterprise for advanced detection.
+        </p>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono">
+            <div class="cyber-card p-4 rounded-lg">
+                <div class="text-neutral-500 text-xs mb-1">// MACHINES</div>
+                <div class="text-2xl text-white font-semibold">6 Nodes</div>
+            </div>
+            <div class="cyber-card p-4 rounded-lg">
+                <div class="text-neutral-500 text-xs mb-1">// PHASES</div>
+                <div class="text-2xl text-white font-semibold">3 Attacks</div>
+            </div>
+            <div class="cyber-card p-4 rounded-lg">
+                <div class="text-neutral-500 text-xs mb-1">// SIEM CORE</div>
+                <div class="text-2xl text-white font-semibold">Splunk Ent.</div>
+            </div>
+            <div class="cyber-card p-4 rounded-lg">
+                <div class="text-neutral-500 text-xs mb-1">// VERSION</div>
+                <div class="text-2xl text-white font-semibold">v2.1</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Lab Architecture Section -->
+    <section id="architecture" class="max-w-6xl mx-auto px-6 py-16">
+        <h2 class="text-2xl font-mono text-white mb-8 border-b border-neutral-800 pb-4">
+            <span class="text-emerald-500 mr-2">></span>Lab_Infrastructure.yaml
+        </h2>
+        
+        <p class="text-neutral-400 mb-10 leading-relaxed">This architecture maps directly to our network topology flow, segmenting machines between 'Machines LAN' and 'Servers LAN' through an OPNsense edge firewall.</p>
+
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <!-- 1. OPNsense Firewall -->
+            <div class="cyber-card cyber-card-active p-8 rounded-xl relative overflow-hidden group col-span-1 xl:col-span-1">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-emerald-500 opacity-50">ACTIVE</div>
+                <h3 class="text-xl font-bold text-white mb-3">OPNsense Firewall</h3>
+                <p class="text-neutral-400 text-sm mb-4">The core network gatekeeper. Managing WAN connectivity and segmentation between 'Machines LAN' and 'Servers LAN'. Logs all traffic flow directly to Splunk.</p>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">pfSense Fork</span>
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Routing</span>
+                </div>
+            </div>
+
+            <!-- 2. Kali Linux -->
+            <div class="cyber-card cyber-card-active p-8 rounded-xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-emerald-500 opacity-50">ACTIVE</div>
+                <h3 class="text-xl font-bold text-white mb-3">Kali Linux Attacker</h3>
+                <p class="text-neutral-400 text-sm mb-4">Dedicated offensive security VM (external/WAN). Executing automated payload delivery, reconnaissance, credential dumping, and lateral movement.</p>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Offensive</span>
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Nmap</span>
+                </div>
+            </div>
+
+            <!-- Spacer -->
+            <div class="xl:col-span-1"></div>
+
+            <!-- machines LAN Label -->
+            <div class="col-span-2 md:col-span-1 xl:col-span-3 mt-10">
+                <h4 class="text-lg font-mono text-neutral-400 mb-6 px-4 py-2 bg-neutral-900 rounded-lg border border-neutral-800">:: MACHINES_LAN.zone</h4>
+            </div>
+
+            <!-- 3. Windows 11 Client -->
+            <div class="cyber-card cyber-card-active p-8 rounded-xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-emerald-500 opacity-50">ACTIVE</div>
+                <h3 class="text-xl font-bold text-white mb-3">Windows 11 Endpoint</h3>
+                <p class="text-neutral-400 text-sm mb-4">Standard corporate workstation on Machines LAN. Compromised host for initial access scenarios. Instrumented with Splunk UF and Sysmon.</p>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Win11</span>
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Sysmon</span>
+                </div>
+            </div>
+
+            <!-- 4. Ubuntu Client -->
+            <div class="cyber-card cyber-card-active p-8 rounded-xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-emerald-500 opacity-50">ACTIVE</div>
+                <h3 class="text-xl font-bold text-white mb-3">Ubuntu Client Node</h3>
+                <p class="text-neutral-400 text-sm mb-4">Linux workstation on Machines LAN. Leveraged for Linux lateral movement, credential access, and command and control (C2) persistence tests.</p>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Ubuntu</span>
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Linux Logs</span>
+                </div>
+            </div>
+
+            <!-- servers LAN Label -->
+            <div class="col-span-2 md:col-span-1 xl:col-span-3 mt-10">
+                <h4 class="text-lg font-mono text-neutral-400 mb-6 px-4 py-2 bg-neutral-900 rounded-lg border border-neutral-800">:: SERVERS_LAN.zone</h4>
+            </div>
+
+            <!-- 5. Active Directory AS Server -->
+            <div class="cyber-card cyber-card-active p-8 rounded-xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-emerald-500 opacity-50">ACTIVE</div>
+                <h3 class="text-xl font-bold text-white mb-3">AD AS Server (DC)</h3>
+                <p class="text-neutral-400 text-sm mb-4">Critical Infrastructure. Managing domain authentication and policies. Central target for attacks like Golden Ticket creation and Pass-the-Hash.</p>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Windows Server</span>
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">DC Logs</span>
+                </div>
+            </div>
+            
+            <!-- 6. Splunk Enterprise -->
+            <div class="cyber-card cyber-card-active p-8 rounded-xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-emerald-500 opacity-50">ACTIVE</div>
+                <h3 class="text-xl font-bold text-white mb-3">Splunk Enterprise</h3>
+                <p class="text-neutral-400 text-sm mb-4">The Central Log Repository (SIEM Stack). Ingesting Universal Forwarder data from all endpoints, OPNsense syslogs, and Ubuntu logs for correlation.</p>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Splunk</span>
+                    <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-400 font-mono">Indexer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Screenshots -->
+    <section id="visuals" class="max-w-6xl mx-auto px-6 py-16">
+        <h2 class="text-2xl font-mono text-white mb-8 border-b border-neutral-800 pb-4">
+            <span class="text-emerald-500 mr-2">></span>_Visuals.img
+        </h2>
+        <div class="max-w-4xl mx-auto">
+			<a href="images/Architecture-Visualization.png" target="_blank">
+				<div class="group relative rounded-lg overflow-hidden border border-neutral-800 cyber-card cyber-card-active aspect-video">
+					<img src="images/Architecture-Visualization.png" alt="Lab Architecture Overview" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-300 filter grayscale group-hover:grayscale-0">
+					<div class="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm p-4 border-t border-neutral-800 font-mono text-sm text-neutral-300">
+						01_lab_architecture_visualization.png
+					</div>
+				</div>
+			</a>
+        </div>
+    </section>
+
+    <!-- Upcoming Write-ups Section -->
+    <section id="writeups" class="max-w-6xl mx-auto px-6 py-16">
+        <h2 class="text-2xl font-mono text-white mb-8 border-b border-neutral-800 pb-4">
+            <span class="text-emerald-500 mr-2">></span>ls -la ./writeups
+        </h2>
+        
+        <p class="text-neutral-400 mb-10 leading-relaxed">Detailed technical documentation of attack chains, detection engineering (SPL queries), and incident response playbooks simulated within the lab.</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Write-up Placeholder 1 -->
+            <div class="cyber-card p-6 rounded-xl relative overflow-hidden border-dashed border-neutral-700 opacity-75">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-neutral-500">WIP</div>
+                <h3 class="text-xl font-bold text-neutral-300 mb-2">Op: Golden Ticket</h3>
+                <p class="text-neutral-500 text-sm mb-6">A deep dive into compromising the AD AS Server, forging a Golden Ticket, and the specific Splunk searches required to detect anomalous Kerberos activity.</p>
+                <div class="flex items-center justify-between mt-auto">
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-500 font-mono">T1558.001</span>
+                    </div>
+                    <button disabled class="px-4 py-2 bg-neutral-900/50 text-neutral-500 border border-neutral-800 rounded text-xs font-mono cursor-not-allowed">
+                        COMING SOON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Write-up Placeholder 2 -->
+            <div class="cyber-card p-6 rounded-xl relative overflow-hidden border-dashed border-neutral-700 opacity-75">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-neutral-500">WIP</div>
+                <h3 class="text-xl font-bold text-neutral-300 mb-2">Lateral Movement via SMB</h3>
+                <p class="text-neutral-500 text-sm mb-6">Analyzing the Sysmon telemetry generated in Splunk when moving laterally from the compromised Windows 11 endpoint to the AD Domain Controller.</p>
+                <div class="flex items-center justify-between mt-auto">
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-500 font-mono">T1021.002</span>
+                    </div>
+                    <button disabled class="px-4 py-2 bg-neutral-900/50 text-neutral-500 border border-neutral-800 rounded text-xs font-mono cursor-not-allowed">
+                        COMING SOON
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Write-up Placeholder 3 -->
+            <div class="cyber-card p-6 rounded-xl relative overflow-hidden border-dashed border-neutral-700 opacity-75 md:col-span-2 lg:col-span-1">
+                <div class="absolute top-0 right-0 p-4 font-mono text-xs text-neutral-500">WIP</div>
+                <h3 class="text-xl font-bold text-neutral-300 mb-2">Data Exfil & Firewall Analysis</h3>
+                <p class="text-neutral-500 text-sm mb-6">Reviewing OPNsense logs within Splunk to trace simulated data exfiltration attempts originating from the Ubuntu Client Node to external IP addresses.</p>
+                <div class="flex items-center justify-between mt-auto">
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-neutral-900 border border-neutral-800 rounded text-xs text-neutral-500 font-mono">T1048</span>
+                    </div>
+                    <button disabled class="px-4 py-2 bg-neutral-900/50 text-neutral-500 border border-neutral-800 rounded text-xs font-mono cursor-not-allowed">
+                        COMING SOON
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Tracker / Roadmap -->
+    <section id="roadmap" class="max-w-3xl mx-auto px-6 py-16 mb-20">
+        <h2 class="text-2xl font-mono text-white mb-10 border-b border-neutral-800 pb-4 text-center">
+            <span class="text-emerald-500 mr-2">tail -f</span>roadmap.log
+        </h2>
+        
+        <div class="relative border-l-2 border-neutral-800 ml-4 md:ml-0 md:pl-8 space-y-12">
+            <!-- Phase 1 -->
+            <div class="relative pl-8 md:pl-0">
+                <div class="absolute -left-10 md:-left-[2.35rem] top-1 h-5 w-5 rounded-full bg-emerald-500 border-4 border-cyber-black flex items-center justify-center"></div>
+                <div class="font-mono text-xs text-emerald-500 mb-2">[ ✔ ] PHASE 1 : COMPLETE</div>
+                <h3 class="text-lg font-bold text-white mb-2">Multi-Network Provisioning</h3>
+                <p class="text-neutral-400 text-sm">Deployment of 6 virtual machines. OPNsense firewall setup with segregated subnets (WAN, Machines LAN, Servers LAN) and basic routing.</p>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="relative pl-8 md:pl-0">
+                <div class="absolute -left-10 md:-left-[2.35rem] top-1 h-5 w-5 rounded-full bg-emerald-500 border-4 border-cyber-black flex items-center justify-center"></div>
+                <div class="font-mono text-xs text-emerald-500 mb-2">[ ✔ ] PHASE 2 : COMPLETE</div>
+                <h3 class="text-lg font-bold text-white mb-2">Active Directory & Splunk Integration</h3>
+                <p class="text-neutral-400 text-sm">Configuring AD Domain Controller and joined Windows 11 client. Deployment of Splunk Enterprise and Universal Forwarders on all mixed nodes.</p>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="relative pl-8 md:pl-0">
+                <div class="absolute -left-10 md:-left-[2.35rem] top-1 h-5 w-5 rounded-full bg-blue-500 border-4 border-cyber-black"></div>
+                <div class="font-mono text-xs text-blue-400 mb-2">[ ⟳ ] PHASE 3 : IN PROGRESS</div>
+                <h3 class="text-lg font-bold text-white mb-2">Complex Attack Emulation</h3>
+                <p class="text-neutral-400 text-sm">Executing complex multi-stage attacks from Kali: initiating credential dumping on Windows 11, moving laterally across the network, and compromising the Ubuntu client to establish persistence.</p>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="relative pl-8 md:pl-0">
+                <div class="absolute -left-10 md:-left-[2.35rem] top-1 h-5 w-5 rounded-full bg-neutral-700 border-4 border-cyber-black"></div>
+                <div class="font-mono text-xs text-neutral-500 mb-2">[ ◻ ] PHASE 4 : UPCOMING</div>
+                <h3 class="text-lg font-bold text-neutral-300 mb-2">MITRE ATT&CK Correlation</h3>
+                <p class="text-neutral-500 text-sm">Translating all observed Splunk events and Sysmon logs into custom Splunk correlation searches. Mapping alerts directly to MITRE TTPs and optimizing dashboards.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-neutral-800 bg-cyber-black mt-12 py-8 text-center text-neutral-500 font-mono text-xs">
+        <p>SentinelLab (v2.1) © 2026 // Built for defenders. // </p>
+    </footer>
+
+</body>
+</html>
